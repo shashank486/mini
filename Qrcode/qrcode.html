@@ -40,8 +40,7 @@
 
     function QRgenerator() {
         // if (name.value.length > 0 && age.value.length>0 && age.value.length>0) {
-
-            qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Name:" + name.value + "Age:" + age.value + "phone:" + phone.value;
+            qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Name:" + name.value + "%0a" + "Age:" + age.value + "%0a" +  "phone:" + phone.value;
             imgBox.classList.add("show-img");
         // } else {
         //     qrText.classList.add('error');
