@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic Reset */
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        } */
+
+        body {
+            background-color: #f4f7fc;
+            color: #333;
+            display: flex;
+            /* justify-content: center; */
+            align-items: flex-start;
+            min-height: 100vh;
+            /* padding: 20px; */
+            font-size: 16px;
+
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            margin: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            /* Ensures this section grows to fill available space */
+            width: 100%;
+            height: 50%;
+        }
+
+        /* Container for the profiles */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3b96eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #5a33a1;
+        }
+
+        /* Profile Cards */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInCard 0.5s ease-in-out;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-card h2 {
+            font-size: 28px;
+            color: #4a4a4a;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .profile-card p {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .star {
+            font-size: 24px;
+            color: #bbb;
+            margin: 0 2px;
+            transition: color 0.3s ease;
+        }
+
+        .star.selected {
+            color: #f39c12;
+        }
+
+        .profile-card button {
+            padding: 10px 20px;
+            background-color: #49b7fb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .profile-card button:hover {
+            background-color: #4ab6f9;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInCard {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .profile-card {
+                padding: 15px;
+                width: 80%;
+                margin: 10px auto;
+            }
+
+            .profile-card img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-card h2 {
+                font-size: 24px;
+            }
+
+            .profile-card p {
+                font-size: 14px;
+            }
+
+            .star {
+                font-size: 20px;
+            }
+
+            .profile-card button {
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .profile-card {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .profile-card img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-card h2 {
+                font-size: 20px;
+            }
+
+            .profile-card p {
+                font-size: 12px;
+            }
+
+            .star {
+                font-size: 18px;
+            }
+
+            .profile-card button {
+                padding: 6px 12px;
+            }
+        }
+
+        /* Navbar Styles */
+        .header {
+            width: 100%;
+            /* display: flex; */
+            align-items: center;
+            justify-content: space-between;
+            /* Align logo on the left and other content on the right */
+            padding: 10px 20px;
+            background-color: white;
+            color: #2196f5;
+            /* White text for contrast */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Logo Section */
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .logo span {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Navbar Links */
+        .header .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            /* Space between links */
+        }
+
+        .header .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            /* Subtle hover effect */
+            transform: scale(1.1);
+        }
+
+        /* Responsive Menu Icon */
+        .header .menu-icon {
+            display: none;
+            /* Hidden by default */
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .nav-links {
+                display: none;
+                /* Hide links by default on smaller screens */
+                flex-direction: column;
+                background-color: #1978de;
+                position: absolute;
+                top: 60px;
+                /* Below the navbar */
+                right: 20px;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .header .nav-links.active {
+                display: flex;
+                /* Show links when active */
+            }
+
+            .header .menu-icon {
+                display: block;
+                /* Show menu icon on smaller screens */
+            }
+        }
+
+
+        h1 {
+            color: #1978de;
+        }
+
+        .footer {
+            width: 100%;
+            background-color: #2196f5;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 20px;
+            /* Creates spacing between content and footer */
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer img {
+            width: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* innerHtml
+         */
+        /* Grid layout for the profile container */
+        #doctorProfiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            animation: fadeInContainer 1s ease-in-out;
+        }
+
+        /* Individual profile card styling */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInCard 0.5s ease-in-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-card h2 {
+            font-size: 22px;
+            color: #4a4a4a;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .profile-card p {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .profile-card .stars {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .profile-card .star {
+            font-size: 20px;
+            color: #bbb;
+            margin: 0 3px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .profile-card .star.selected {
+            color: #f39c12;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInContainer {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInCard {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            #doctorProfiles {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .profile-card {
+                padding: 15px;
+            }
+
+            .profile-card h2 {
+                font-size: 18px;
+            }
+
+            .profile-card p {
+                font-size: 12px;
+            }
+
+            .profile-card img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .profile-card .star {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #doctorProfiles {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .profile-card h2 {
+                font-size: 16px;
+            }
+
+            .profile-card p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img alt="PMS logo"
+                src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" />
+            <!-- <span><b>PMS</b></span> -->
+            <h1>PMS</h1>
+        </div>
+    </header>
+    <div class="main-content">
+        <div class="container" id="doctorProfiles">
+            <!-- Doctor profiles will be dynamically rendered here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <img alt="PMS logo" src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" />
+        <p>Copyright © 2025, PMS. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function loadDoctorProfiles() {
+            // Retrieve profiles from localStorage
+            const profiles = JSON.parse(localStorage.getItem('doctorProfiles')) || [];
+
+            // Filter out deleted or invalid profiles
+            const validProfiles = profiles.filter(doctor => doctor && !doctor.isDeleted);
+
+            // Check if there are valid profiles
+            if (validProfiles.length === 0) {
+                alert('No valid doctor profiles found. Redirecting to the form.');
+                window.location.href = 'Docprofile.html';
+                return;
+            }
+
+            const profileContainer = document.getElementById('doctorProfiles');
+            profileContainer.innerHTML = ''; // Clear any existing content
+
+            validProfiles.forEach(doctor => {
+                // Create a profile card or element for each doctor
+                const profileCard = document.createElement('div');
+                profileCard.classList.add('profile-card');
+                profileCard.innerHTML = `
+            <img src="${doctor.profilePhoto || 'default-profile.png'}" alt="Profile Photo">
+            <h2>${doctor.name}</h2>
+            <p>Email: ${doctor.email}</p>
+            <p>Phone: ${doctor.phone || 'Not provided'}</p>
+            <p>Experience: ${doctor.experience || 'Not provided'}</p>
+            <p>Patients Treated: ${doctor.patients || 'Not available'}</p>
+            <div class="stars" data-doctor-id="${doctor.id}">
+                ${[1, 2, 3, 4, 5].map(star => {
+                    const selected = doctor.rating && doctor.rating >= star ? 'selected' : '';
+                    return `<span class="star ${selected}" data-star="${star}">&#9733;</span>`;
+                }).join('')}
+            </div>
+            <p>Rating: ${doctor.rating ? doctor.rating : 'No rating yet'}</p>
+        `;
+
+                // Create the "Book Appointment" button
+                const bookButton = document.createElement('button');
+                bookButton.textContent = 'Book Appointment';
+                bookButton.onclick = () => {
+                    // Save the selected doctor's profile in localStorage
+                    localStorage.setItem('selectedDoctorProfile', JSON.stringify(doctor));
+                    // Redirect to the scheduler page
+                    window.location.href = '/doctor-detail';
+                };
+
+                // Append the button to the profile card
+                profileCard.appendChild(bookButton);
+
+                // Append the profile card to the container
+                profileContainer.appendChild(profileCard);
+            });
+        }
+
+        // Call this function to delete a doctor profile
+        function deleteDoctorProfile(doctorId) {
+            const profiles = JSON.parse(localStorage.getItem('doctorProfiles')) || [];
+            const updatedProfiles = profiles.map(doctor => {
+                if (doctor.id === doctorId) {
+                    // Mark the doctor profile as deleted
+                    return { ...doctor, isDeleted: true };
+                }
+                return doctor;
+            });
+
+            // Save updated profiles back to localStorage
+            localStorage.setItem('doctorProfiles', JSON.stringify(updatedProfiles));
+        }
+
+        // Event listener for page load
+        document.addEventListener('DOMContentLoaded', loadDoctorProfiles);
+
+    </script>
+</body>
+
+</html>

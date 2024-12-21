@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<html>
+
+<head>
+    <title>
+        PMS
+    </title>
+    <link rel="stylesheet" href="home.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: #f8f9fa; */
+            font-family: 'Roboto', sans-serif;
+            /* background-color: #2C3E9F; */
+            background-color: white;
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 4px;
+            height: 35px;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .header nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #008cfe;
+            font-weight: 500;
+            /* font-family: cursive; */
+        }
+
+        .header nav a:hover {
+            color: #19bade;
+        }
+
+        .header .login-signup {
+            border: 1px solid #e0e0e0;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 50px 20px;
+            position: sticky;
+        }
+
+        .sub-header {
+            color: black;
+            font-size: 24px;
+            margin-bottom: 66px;
+        }
+
+        /*search box*/
+        .header_srh {
+            background-image: url('https://res.cloudinary.com/dviuu2srn/image/upload/v1732611224/imgg_mjne74.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 1500px 600px;
+            display: flex;
+            width: 100%;
+            height: 500px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header_srh input[type="text"] {
+            width: 200px;
+            /* Equal size for both inputs */
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            /* margin: 5px; */
+            border-radius: 4px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border-right: none;
+        }
+
+        .header_srh input[type="search"] {
+            width: 400px;
+            /* Equal size for both inputs */
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            /* margin: 5px; */
+            border-radius: 4px;
+            border-left: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header_srh .location,
+        .search-dropdown {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .header_srh .location i {
+            margin-right: 5px;
+        }
+
+        .search-dropdown,
+        .location-dropdown {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 400px;
+            display: none;
+            position: absolute;
+            z-index: 1000;
+
+            visibility: visible;
+            /* Ensure visibility when displayed */
+            opacity: 1;
+            /* Fully opaque */
+            transition: opacity 0.2s ease-in-out;
+            /* Smooth transition effect */
+        }
+
+        .search-dropdown {
+            top: 50px;
+            right: 340px;
+            /* Adjusted to be exactly below the search input box */
+        }
+
+        /* .location-dropdown {
+            top: 46.25px;
+            left: 12.5px;
+            width: 220px;
+            display:block;
+        } */
+
+        .search-dropdown h3,
+        .location-dropdown h3 {
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-dropdown .popular-buttons,
+        .location-dropdown .popular-buttons {
+            display: flex;
+            padding: 10px 0;
+        }
+
+        .search-dropdown .popular-buttons button,
+        .location-dropdown .popular-buttons button {
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .search-dropdown .common-specialities,
+        .location-dropdown .common-specialities {
+            padding: 10px 0;
+        }
+
+        .search-dropdown .common-specialities .speciality,
+        .location-dropdown .common-specialities .speciality {
+            display: flex;
+            justify-content: baseline;
+            align-items: center;
+            padding: 10px 0;
+            margin: 1px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-dropdown .common-specialities .speciality i,
+        .location-dropdown .common-specialities .speciality i {
+
+            margin-right: 10px;
+        }
+
+        .search-dropdown .common-specialities .speciality:last-child,
+        .location-dropdown .common-specialities .speciality:last-child {
+            border-bottom: none;
+        }
+
+        .background-illustration {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: url('https://placehold.co/2048x300') no-repeat center center;
+            background-size: cover;
+        }
+
+        h3 {
+            color: black;
+        }
+
+        .speciality {
+            color: black;
+            cursor: pointer;
+        }
+
+        .spec {
+            position: relative;
+            right: -10px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            justify-items: normal;
+        }
+
+        .phone {
+            width: 300px;
+            height: 600px;
+            background-color: white;
+            border: 10px solid black;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-right: 50px;
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+        }
+
+        /* .cambox
+{
+    background-color: black;
+} */
+        .notch {
+            background-color: black;
+            width: 100px;
+            height: 20px;
+            border: 2px solid black;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            left: 100px;
+        }
+
+        .section img {
+            /* padding: 25px; */
+            width: 250px;
+            height: 64%;
+            align-content: center;
+
+        }
+
+        .phone .header {
+            background-color: white;
+
+            color: #2196f5;
+            padding: 10px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .phone .header img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .phone .header .name {
+            flex-grow: 1;
+        }
+
+        .phone .header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .phone .header .icons i {
+            margin-left: 10px;
+        }
+
+        .phone .content {
+            padding: 20px;
+            height: calc(100% - 100px);
+        }
+
+        .phone .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            background-color: #f5f7fa;
+        }
+
+        .phone .footer input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .phone .footer button {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+        /* .phone-section .intro-video {
+    width: 250px; 
+    height: 140px; 
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+} */
+
+        .intro-video {
+            width: 100%;
+            height: 192px;
+            position: relative;
+            bottom: -130px;
+            object-fit: cover;
+
+            transform: scale(0.9);
+            /* Adjust the scale value as needed */
+            transform-origin: center;
+            /* Ensures the zoom is centered */
+        }
+
+        .info {
+            max-width: 400px;
+        }
+
+        .info h1 {
+            font-size: 36px;
+            color: #333;
+            margin: 0;
+        }
+
+        .info h1 span {
+            font-weight: normal;
+        }
+
+        .info ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .info ul li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .info ul li i {
+            color: #3b5998;
+            margin-right: 10px;
+        }
+
+        .info .button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info .button button {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .info .button span {
+            color: #666;
+        }
+
+        .info .review {
+            display: flex;
+            align-items: center;
+        }
+
+        .info .review i {
+            color: #3b5998;
+            margin-right: 5px;
+        }
+
+        .info .review p {
+            margin: 0;
+            color: #666;
+        }
+
+        .info .review .name {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .info .review .name img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+
+
+
+        /* -------------------------------------------- */
+        /* .footer_container{
+    display: flex;
+} */
+        .Fcontainer_column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer {
+            display: flex;
+            padding: 30px;
+            justify-content: space-around;
+            padding: 40px 0;
+            text-align: left;
+            background-color: #2196f5;
+            border-bottom: none;
+        }
+
+        .footer-column {
+            width: 15%;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            background-color: #2196f5;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #3A4BA3;
+            border-radius: 5px;
+        }
+
+        .footer-bottom img {
+            width: 100px;
+            margin-bottom: 10px;
+            border-radius: 100px;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+
+        /* Navigation */
+
+
+        .navigation-bar {
+            background-color: #2c3e8e;
+            padding: 20px 0;
+            width: 100%;
+            border-radius: 12px;
+            border-bottom: 5px solid #2196f5;
+        }
+
+        .navigation-bar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navigation-bar ul li {
+            margin: 0 20px;
+            text-align: center;
+            color: white;
+            transition: color 0.3s, background-color 0.3s, font-size 0.3s;
+        }
+
+        .navigation-bar ul li i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+            transition: font-size 0.3s;
+        }
+
+        .navigation-bar ul li .new {
+            background-color: #4caf50;
+            color: white;
+            font-size: 12px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .navigation-bar ul li:not(:last-child) {
+            border-right: 1px solid #3b4a9b;
+            padding-right: 20px;
+        }
+
+        .navigation-bar ul li:not(:first-child) {
+            padding-left: 20px;
+        }
+
+        .navigation-bar ul li:hover {
+            /* color: #4caf50; */
+            background-color: #3b4a9b;
+            cursor: pointer;
+        }
+
+        .navigation-bar ul li:hover i {
+            font-size: 28px;
+        }
+
+
+
+        /* 
+//about section */
+
+        .about-section {
+            width: 1400px;
+            background-color: #f9f9f9;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 28px;
+            color: #3b5998;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+            .about-content h2 {
+                font-size: 24px;
+            }
+
+            .about-content p {
+                font-size: 14px;
+            }
+
+        }
+
+
+        /* Scanner Icon Styles */
+        .scanner {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .scanner img {
+            position: relative;
+            left: 110px;
+            width: 40px;
+            height: 40px;
+        }
+
+
+        /* Dropdown menu for profile */
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-button {
+            background-color: #f1f1f1;
+            border: none;
+            color: black;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            left: -50px;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            /* Start invisible */
+            transform: translateY(-10px);
+            /* Slide effect */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            /* Smooth animation */
+
+        }
+
+        .user-dropdown:hover .menu-content {
+            display: block;
+            opacity: 1;
+            /* Fade-in effect */
+            transform: translateY(0);
+            /* Slide-down effect */
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .avatar-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-details {
+            margin-left: 10px;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .user-phone {
+            color: grey;
+        }
+
+        .menu-content .menu-item {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-content .menu-item:hover {
+            background-color: #ddd;
+        }
+
+        .profile-link {
+            color: blue;
+        }
+
+        .product-switch {
+            padding: 12px 16px;
+            border-top: 1px solid #ccc;
+        }
+
+        .product-switch p {
+            margin: 0;
+            color: grey;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <%- include('header') %> -->
+    <header class="header">
+        <div class="logo">
+            <img alt=" logo" height="30"
+                src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" width="60" />
+            <span style="color: #1978de; font-size: 24px; font-weight: 700; ">
+                <b>PMS</b>
+            </span>
+        </div>
+        <nav>
+            <a href="/Patprofile">
+                Find Doctors
+            </a>
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#">
+                How it Works?
+            </a>
+
+            <!-- <a href="#">
+                Security &amp; help
+            </a> -->
+
+            <!-- SCANNER -->
+
+        </nav>
+
+        <!-- <div class="scanner">
+            <a href="#scanner" title="Scan QR Code">
+                <img src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732611219/qr-code_qld3wq.png"
+                    alt="Scanner" />
+            </a>
+        </div> -->
+        <!-- <a class="login-signup" href="/login">
+            Login / Signup
+        </a> -->
+        <div class="user-dropdown" id="userMenu">
+            <button class="menu-button" id="name"></button>
+            <div class="menu-content" id="menuItems">
+                <div class="user-profile" id="profileSection">
+                    <img src="profile-image-url.jpg" alt="Profile Image" class="avatar-image">
+                    <div class="user-details">
+                        <p class="user-name" id="name"></p>
+                        <p class="user-phone">+918431841740</p>
+                    </div>
+                </div>
+                <a href="/Myappointment" class="menu-item">My Appointments</a>
+                <a href="/indexpay" class="menu-item">Payment</a>
+                <a href="#" class="menu-item">Settings</a>
+                <a id="logout" class="menu-item">Logout</a>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Box -->
+    <div class="header_srh">
+        <div class="location" id="location-box">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" id="location-input" placeholder="Bangalore">
+            <!-- <div class="location-dropdown" id="location-dropdown" ></div> -->
+            <div class="location-dropdown" id="location-dropdown"
+                style="top:45.25px; left: 12.5px; width: 220px; display: block;">
+                <h3>Select Location</h3>
+                <div class="common-specialities">
+                    <div class="speciality">
+                        <div><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+                    </div>
+                    <div class="speciality">
+                        <div><i class="fas fa-map-marker-alt"></i> Mumbai</div>
+                    </div>
+                    <div class="speciality">
+                        <div><i class="fas fa-map-marker-alt"></i> Delhi</div>
+                    </div>
+                    <div class="speciality">
+                        <div><i class="fas fa-map-marker-alt"></i> Chennai</div>
+                    </div>
+                    <div class="speciality">
+                        <div><i class="fas fa-map-marker-alt"></i> Kolkata</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="search" id="search-box" placeholder="Search doctors, clinics, hospitals, etc.">
+
+        <!-- <input type="text" placeholder="Search doctors, clinics, hospitals, etc." id="search-box"> -->
+        <div class="search-dropdown" id="dropdown-menu">
+            <h3>Common Specialities</h3>
+            <div class="common-specialities">
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">Dentist</div>
+                </div>
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">Gynecologist/Obstetrician</div>
+                </div>
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">General Physician</div>
+                </div>
+                <div class="specialityfas fa-search" data-url="doctors.html">
+                    <div class="spec">Dermatologist</div>
+                </div>
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">Ear-Nose-Throat (ENT) Specialist</div>
+                </div>
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">Homoeopath</div>
+                </div>
+                <div class="speciality fas fa-search" data-url="doctors.html">
+                    <div class="spec">Ayurveda</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="navigation-bar">
+        <ul>
+            <li>
+                <i class="fa-solid fa-id-card-clip"></i>
+                </i>
+                Book-Slot
+            </li>
+            <li>
+                <i class="fas fa-user-md">
+                </i>
+                Find Doctor
+            </li>
+            <li>
+                <i class="fas fa-hospital">
+                </i>
+                Find Hospital
+            </li>
+            <li>
+                <i class="fa-solid fa-receipt"></i>
+
+                Epass
+
+            </li>
+            <li>
+                <i class="fas fa-book-open">
+                </i>
+                Read articles
+            </li>
+            <li>
+                <i class="fas fa-briefcase-medical">
+                </i>
+                For healthcare providers
+            </li>
+        </ul>
+    </div>
+    </div>
+
+
+
+    <!-- assure -->
+    <div class="container">
+        <div class="phone section">
+            <div class="cambox">
+                <div class="notch"></div>
+            </div>
+            <div class="header">
+                <img alt="Doctor's profile picture" height="30"
+                    src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp"
+                    width="30" />
+                <div class="name">
+                    PMS
+                    </strong>
+
+                </div>
+
+                <i class="fas fa-ellipsis-v">
+                </i>
+            </div>
+            <div class="videoBox">
+                <video class="intro-video" autoplay muted loop>
+                    <source src="slide.mp4" type="video/mp4">
+                    <!-- Your browser does not support the video tag. -->
+                </video>
+            </div>
+        </div>
+        <div class="content">
+            <!-- Chat content goes here -->
+        </div>
+        <!-- <div class="footer">
+            <i class="fas fa-paperclip">
+            </i>
+            <input placeholder="Write Message" type="text" />
+            <button>
+                SEND
+            </button>
+        </div> -->
+        <div class="info">
+            <h1>
+                Skip the Queue.
+                <br />
+                <span>
+                    Pre-Book the <b color="blue">slot</b>
+                </span>
+            </h1>
+            <br><br>
+            <div class="button">
+                <button>
+                    <a href="doctors.html"><strong>Book now</strong></a>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="about-section" id="about">
+        <div class="about-content">
+            <h2>PMS - Patient Management System</h2>
+            <p>
+                The Patient Management System (PMS) is designed to minimize waiting times in hospital queues. Using our
+                mobile app, patients can register quickly, choose doctors, and receive an Emergency Pass (EP) with a QR
+                code for priority booking. The QR code allows for easy check-ins, and payments can be made online or at
+                the hospital. This system ensures a streamlined and efficient healthcare experience for both patients
+                and doctors.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- footer -->
+    <div class="footer_container">
+        <div class="Fcontainer_column">
+
+            <!-- <div class="footer inner-div">
+                <div class="footer-column">
+                    <h3>
+                        Practoww
+                    </h3>
+                    <a href="#">
+                        About
+                    </a>
+                    <a href="#">
+                        Blog
+                    </a>
+                    <a href="#">
+                        Careers
+                    </a>
+                    <a href="#">
+                        Press
+                    </a>
+                    <a href="#">
+                        Contact Us
+                    </a>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        For patients
+                    </h3>
+                    <a href="#">
+                        Ask free health questions
+                    </a>
+                    <a href="#">
+                        Search for doctors
+                    </a>
+                    <a href="#">
+                        Search for clinics
+                    </a>
+                    <a href="#">
+                        Search for hospitals
+                    </a>
+                    <a href="#">
+                        Book Diagnostic Tests
+                    </a>
+                    <a href="#">
+                        Book Full Body Checkups
+                    </a>
+                    <a href="#">
+                        Read health articles
+                    </a>
+                    <a href="#">
+                        Consult a doctor
+                    </a>
+                    <a href="#">
+                        Order medicines
+                    </a>
+                    <a href="#">
+                        Read about medicines
+                    </a>
+                    <a href="#">
+                        Practo drive
+                    </a>
+                    <a href="#">
+                        Health app
+                    </a>
+                    <a href="#">
+                        Practo Plus
+                    </a>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        For doctors
+                    </h3>
+                    <a href="#">
+                        Practo Consult
+                    </a>
+                    <a href="#">
+                        Practo Health Feed
+                    </a>
+                    <a href="#">
+                        Practo Profile
+                    </a>
+                    <h3>
+                        For clinics
+                    </h3>
+                    <a href="#">
+                        Practo Prime
+                    </a>
+                    <a href="#">
+                        Ray by Practo
+                    </a>
+                    <a href="#">
+                        Practo Reach
+                    </a>
+                    <a href="#">
+                        Ray Tab
+                    </a>
+                    <a href="#">
+                        Practo Pro
+                    </a>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        For hospitals
+                    </h3>
+                    <a href="#">
+                        Insta by Practo
+                    </a>
+                    <a href="#">
+                        Qikwell by Practo
+                    </a>
+                    <a href="#">
+                        Practo Profile
+                    </a>
+                    <a href="#">
+                        Practo Reach
+                    </a>
+                    <a href="#">
+                        Practo Drive
+                    </a>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        More
+                    </h3>
+                    <a href="#">
+                        Help
+                    </a>
+                    <a href="#">
+                        Developers
+                    </a>
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+                    <a href="#">
+                        Terms &amp; Conditions
+                    </a>
+                    <a href="#">
+                        PCS T&amp;C
+                    </a>
+                    <a href="#">
+                        Healthcare Directory
+                    </a>
+                    <a href="#">
+                        Practo Health Wiki
+                    </a>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        Social
+                    </h3>
+                    <a href="#">
+                        Facebook
+                    </a>
+                    <a href="#">
+                        Twitter
+                    </a>
+                    <a href="#">
+                        LinkedIn
+                    </a>
+                    <a href="#">
+                        Youtube
+                    </a>
+                    <a href="#">
+                        Github
+                    </a>
+                </div>
+            </div> -->
+            <div class="footer-bottom inner-div">
+                <img alt="Practo logo" height="100"
+                    src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp"
+                    width="100" />
+                <p>
+                    Copyright © 2025, PMS. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="home.js"></script>
+    <script>
+
+        // Parse query parameters
+        const params = new URLSearchParams(window.location.search);
+        const patientId = params.get('patientId');
+        const patientName = params.get('patientName');
+        // Display the information
+        document.getElementById('name').textContent = patientName;
+// --------------------------------------------------------------------------
+        //from the login
+        // Retrieve doctorname from localStorage
+        const doctorname = localStorage.getItem('doctorname');
+        if (doctorname) {
+            document.getElementById('name').textContent = doctorname; // Display the name
+        } else {
+            console.error('Doctor name is missing.');
+        }
+
+
+
+        // Check user authentication status on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const isAuthenticated = sessionStorage.getItem("authenticated");
+
+            if (!isAuthenticated) {
+                alert("Please login to access this page.");
+                window.location.href = "/login"; // Redirect to login page
+            }
+        });
+
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const userId = urlParams.get('userId');
+
+
+
+        // Show dropdown for search input
+        document.getElementById('search-box').addEventListener('focus', function () {
+            var searchBox = document.getElementById('search-box');
+            var dropdownMenu = document.getElementById('dropdown-menu');
+            var rect = searchBox.getBoundingClientRect();
+
+            // Adjust position based on the input's position
+            dropdownMenu.style.top = (window.scrollY + rect.bottom) + 'px'; // Absolute top positioning
+            dropdownMenu.style.left = (window.scrollX + rect.left) + 'px';  // Absolute left positioning
+            dropdownMenu.style.width = rect.width + 'px'; // Match width of the search input
+            dropdownMenu.style.display = 'block'; // Ensure the dropdown is visible
+        });
+
+        // Show dropdown for location input
+        document.getElementById('location-input').addEventListener('focus', function () {
+            var locationInput = document.getElementById('location-input');
+            var locationDropdown = document.getElementById('location-dropdown');
+            var rect = locationInput.getBoundingClientRect();
+
+            // Adjust position based on the input's position
+            // locationDropdown.style.top = (window.scrollY + rect.bottom) + 'px'; // Absolute top positioning
+            // locationDropdown.style.left = (window.scrollX + rect.left) + 'px';  // Absolute left positioning
+            // locationDropdown.style.width = rect.width + 'px'; // Match width of the location input
+            // locationDropdown.style.display = 'block'; // Ensure the dropdown is visible
+        });
+
+        // Click handler for selecting a location from the dropdown
+        document.querySelectorAll('.location-dropdown .speciality').forEach(function (element) {
+            element.addEventListener('click', function () {
+                document.getElementById('location-input').value = this.textContent.trim();
+                document.getElementById('location-dropdown').style.display = 'none';
+            });
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            var isClickInsideSearch = document.getElementById('search-box').contains(event.target) || document.getElementById('dropdown-menu').contains(event.target);
+            var isClickInsideLocation = document.getElementById('location-input').contains(event.target) || document.getElementById('location-dropdown').contains(event.target);
+
+            if (!isClickInsideSearch) {
+                document.getElementById('dropdown-menu').style.display = 'none';
+            }
+
+            if (!isClickInsideLocation) {
+                document.getElementById('location-dropdown').style.display = 'none';
+            }
+        });
+
+
+
+        //navigate
+
+        // Add event listener for clicks on speciality options
+        document.querySelectorAll('.search-dropdown .speciality').forEach(function (element) {
+            element.addEventListener('click', function () {
+                // Get the URL from the data attribute
+                var targetUrl = this.getAttribute('data-url');
+                if (targetUrl) {
+                    // Redirect to the target URL
+                    window.location.href = targetUrl;
+                }
+            });
+        });
+
+
+
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     // Simulated user data. Replace this with a proper backend/user session check.
+        //     const userLoggedIn = true; // Set to true if the user is logged in
+        //     const userName = "Shashank B"; // Replace with the logged-in user's name
+
+        //     const loginSignupLink = document.querySelector(".login-signup");
+
+        //     if (userLoggedIn) {
+        //         // Replace the login/signup link with the profile dropdown
+        //         loginSignupLink.outerHTML = `
+        //     <div class="user-dropdown" id="userMenu">  
+        //         <button class="menu-button">${userName} ▼</button>  
+        //         <div class="menu-content" id="menuItems">  
+        //             <div class="user-profile" id="profileSection">  
+        //                 <img src="profile-image-url.jpg" alt="Profile Image" class="avatar-image">  
+        //                 <div class="user-details">  
+        //                     <p class="user-name">${userName}</p>  
+        //                     <p class="user-phone">+918431841740</p>  
+        //                 </div>  
+        //             </div>  
+        //             <a href="/Myappointment" class="menu-item">My Appointments</a>  
+        //             <a href="#" class="menu-item">My Tests</a>  
+        //             <a href="#" class="menu-item">My Medicine Orders</a>  
+        //             <a href="#" class="menu-item">My Medical Records</a>  
+        //             <a href="#" class="menu-item">My Online Consultations</a>  
+        //             <a href="#" class="menu-item">My Feedback</a>  
+        //             <a href="#" class="profile-link">View / Update Profile</a>  
+        //             <a href="#" class="menu-item">Settings</a>  
+        //             <a  id="logout" class="menu-item">Logout</a>  
+        //             <div class="product-switch" id="switchProducts">  
+        //                 <p>Switch to provider products ⮕</p>  
+        //                 <p>Manage your clinic, answer consult questions, write health articles and more</p>  
+        //             </div>  
+        //         </div>  
+        //     </div>`;
+        //     }
+        // });
+
+        //logout
+        document.getElementById('logout').addEventListener('click', async () => {
+            // Clear client-side authentication
+            sessionStorage.removeItem('authenticated'); // Clear authentication status
+
+
+            // Optional: Notify the server to destroy the session (if applicable)
+            await fetch('/logout', { method: 'POST' });
+
+            alert("You have been logged out.");
+            window.location.href = '/login'; // Redirect to login page
+        });
+
+    </script>
+    <script src="server.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .header span {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .doctor-link span {
+            color: #ff9800;
+            text-decoration: underline;
+        }
+        
+        .header a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .mobile-input {
+            display: flex;
+        }
+        
+        .mobile-input select {
+            width: 40%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .mobile-input input {
+            width: 60%;
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+        }
+        
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-group.checkbox input {
+            margin-right: 10px;
+        }
+        
+        .form-group.checkbox label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        p {
+            font-size: 12px;
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        p a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00c4ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #009ccf;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <span>Join PMS</span>
+            <!-- <a href="/auth/google">SignUp with Google</a> -->
+            <a href="/PMSreg">Patient?</a><div class="doctor-link"><span>Register Here</span></div> 
+        </div>
+        <form action="/register" method="POST">
+            <input type="hidden" name="role" value="doctor">
+
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Full Name" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <div class="mobile-input">
+                    <select name="countryCode">
+                        <option value="+91">+91 (IND)</option>
+                    </select>
+                    <input type="tel" id="mobile" placeholder="Mobile Number" name="mobileno" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Create Password</label>
+                <input type="password" id="password" placeholder="Password" name="password" required>
+            </div>
+            <p>By signing up, I agree to <a href="#">terms</a></p>
+             <button type="submit">SignUp</button>
+            <!-- <a href="/auth/google" aria-label="Sign in with Google">
+                <img src="google.png" alt="google">
+            </a> -->
+        <hr class="hline">
+            <a href="/auth/google" aria-label="Sign in with Google">
+                <img src="google.png" alt="google" style="width: 30px; height: 30px; position:relative; left:125px">
+            </a>
+            
+        </form> 
+        <!-- [class]="expression" -->
+    </div>
+    <script src="server.js"></script>
+</body>
+</html> 
+
+

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Visit Scheduler</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fc;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+
+        /* Doctor Profile Section */
+        .doctor-profile {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .doctor-profile:hover {
+            transform: translateY(-5px);
+        }
+
+        .doctor-profile .profile-photo {
+            margin-bottom: 20px;
+        }
+
+        .doctor-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .doctor-profile img:hover {
+            transform: scale(1.1);
+        }
+
+        .doctor-profile h2 {
+            font-size: 28px;
+            color: #4a4a4a;
+            margin-bottom: 10px;
+        }
+
+        .doctor-profile p {
+            font-size: 16px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .doctor-profile .ratingsStars {
+            font-size: 18px;
+            color: #f39c12;
+            margin: 15px 0;
+        }
+
+        /* Profile Details Section */
+        .profile-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .profile-details .detail {
+            width: 45%;
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 16px;
+            padding: 8px 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Schedule Form */
+        #schedulerForm {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        #schedulerForm label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        #schedulerForm input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            transition: border 0.3s ease;
+        }
+
+        #schedulerForm input:focus {
+            border: 1px solid #6f42c1;
+        }
+
+        /* Available Slots */
+        .slot {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .slot:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-5px);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #49acea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #40abee;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .doctor-profile img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .doctor-profile h2 {
+                font-size: 24px;
+            }
+
+            .doctor-profile p {
+                font-size: 14px;
+            }
+
+            .slot {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            #schedulerForm input {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .section-container h2 {
+                font-size: 20px;
+            }
+
+            .profile-details .detail {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .doctor-profile img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .doctor-profile h2 {
+                font-size: 20px;
+            }
+
+            .doctor-profile p {
+                font-size: 12px;
+            }
+
+            .slot {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            #schedulerForm input {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+
+        /* Styling the button */
+        #submitSlotBtn {
+            padding: 10px 20px;
+            background-color: #44aae9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submitSlotBtn:hover {
+            background-color: #45a049;
+        }
+
+        /* Disabled button style */
+        #submitSlotBtn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Style for each available slot */
+        /*  */
+
+        .slot:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Highlight selected slot with blue color */
+        .slot.selected {
+            background-color: #007bff;
+            /* Blue background */
+            color: white;
+            /* White text */
+        }
+
+
+        /* profile */
+        /* Style for the doctor profile */
+.doctor-profile {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* First column for profile photo, second for details */
+    grid-gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-photo img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.doctor-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.doctor-details h2 {
+    font-size: 2em;
+    color: #333;
+    margin: 0;
+}
+
+.doctor-details p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 0;
+}
+
+.ratingsStars {
+    margin-top: 10px;
+    font-size: 1.5em;
+    color: gold;
+}
+
+/* Additional responsive styling */
+@media (max-width: 768px) {
+    .doctor-profile {
+        grid-template-columns: 1fr; /* Stack profile photo and details on smaller screens */
+    }
+    .profile-photo img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+
+/* Navbar Styles */
+.header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align items to the left */
+            padding: 10px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 50px;
+            margin-right: 10px;
+            align-items: flex-start;
+        }
+
+        .header .logo span {
+            color: #1978de;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+       
+
+        /* Footer Styles */
+        .footer {
+            width: 100%;
+            background-color: #2196f5;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .footer img {
+            width: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <!-- <header class="header">
+        <div class="logo">
+            <img alt="PMS logo"
+                src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" />
+            <span><b>PMS</b></span>
+        </div>
+    </header> -->
+
+    <div class="container">
+        <!-- <h1>Clinic Visit Scheduler</h1> -->
+
+        <!-- Doctor Profile Section -->
+        <div class="doctor-profile">
+            <div class="profile-photo">
+                <img id="doctorProfileImage" src="" alt="Doctor Profile">
+            </div>
+            <h2 id="doctorName"></h2>
+            <p id="doctorEmail"></p>
+            <p id="doctorPhone"></p>
+            <p id="doctorSpecialty"></p>
+            <p id="doctorExperience"></p>
+
+            <!-- Additional Doctor Information -->
+            <p id="doctorStreetAddress"></p>
+            <p id="doctorCity"></p>
+            <p id="doctorState"></p>
+            <p id="doctorPostalCode"></p>
+            <p id="doctorCountry"></p>
+            <p id="doctorBloodGroup"></p>
+            <p id="doctorPatients"></p>
+            <div class="ratingsStars" id="doctorRatings"></div>
+        </div>
+
+        <!-- Schedule Form -->
+        <form id="schedulerForm">
+            <label for="visitDate">Select Date:</label>
+            <input type="date" id="visitDate" name="visit_date" required>
+        </form>
+
+        <!-- Available Slots -->
+        <div class="section-container">
+            <h2>Available Slots</h2>
+            <div id="availableSlots"></div>
+        </div>
+        <button id="submitSlotBtn" disabled>Submit</button>
+        <br>
+        <a href="/Docprofile" class="back-btn">Back to Profiles</a>
+    </div>
+
+     <!-- Footer -->
+     <!-- <footer class="footer">
+        <img alt="PMS logo"
+            src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" />
+        <p>Copyright © 2025, PMS. All rights reserved.</p>
+    </footer> -->
+    <script>
+        const submitSlotBtn = document.getElementById('submitSlotBtn');
+        document.addEventListener('DOMContentLoaded', () => {
+            const availableSlotsDiv = document.getElementById('availableSlots');
+            const visitDateInput = document.getElementById('visitDate');
+    
+            const selectedDoctorProfile = JSON.parse(localStorage.getItem('selectedDoctorProfile'));
+    
+            if (selectedDoctorProfile) {
+                // Populate doctor details
+                document.getElementById('doctorName').textContent = selectedDoctorProfile.name;
+                document.getElementById('doctorEmail').textContent = `Email: ${selectedDoctorProfile.email}`;
+                document.getElementById('doctorPhone').textContent = `Phone: ${selectedDoctorProfile.phone || 'Not available'}`;
+                document.getElementById('doctorSpecialty').textContent = `Specialty: ${selectedDoctorProfile.specialty || 'Not specified'}`;
+                document.getElementById('doctorExperience').textContent = `Experience: ${selectedDoctorProfile.experience || 'Not available'}`;
+                document.getElementById('doctorProfileImage').src = selectedDoctorProfile.profilePhoto || 'default-profile.png';
+    
+                // Additional doctor details
+                document.getElementById('doctorStreetAddress').textContent = `Street Address: ${selectedDoctorProfile.streetAddress || 'Not provided'}`;
+                document.getElementById('doctorCity').textContent = `City: ${selectedDoctorProfile.city || 'Not provided'}`;
+                document.getElementById('doctorState').textContent = `State: ${selectedDoctorProfile.state || 'Not provided'}`;
+                document.getElementById('doctorPostalCode').textContent = `Postal Code: ${selectedDoctorProfile.postalCode || 'Not provided'}`;
+                document.getElementById('doctorCountry').textContent = `Country: ${selectedDoctorProfile.country || 'Not provided'}`;
+                document.getElementById('doctorBloodGroup').textContent = `Blood Group: ${selectedDoctorProfile.bloodGroup || 'Not provided'}`;
+                document.getElementById('doctorPatients').textContent = `Patients Treated: ${selectedDoctorProfile.patients || 'Not available'}`;
+    
+                // Ratings
+                document.getElementById('doctorRatings').innerHTML = createRatingStars(selectedDoctorProfile.ratings || 0);
+            }
+    
+            visitDateInput.addEventListener('change', populateSlots);
+    
+            async function populateSlots() {
+                const selectedDate = visitDateInput.value;
+                if (!selectedDate) {
+                    alert('Please select a date.');
+                    return;
+                }
+    
+                availableSlotsDiv.innerHTML = '';
+    
+                // Fetch schedule from backend
+                try {
+                    const response = await fetch(`http://localhost:5503/api/schedule/${selectedDate}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        loadAvailableSlots(data.slots);
+                    } else {
+                        alert('No schedule available for the selected date.');
+                    }
+                } catch (err) {
+                    console.error('Error fetching schedule:', err);
+                    alert('Failed to fetch schedule.');
+                }
+            }
+    
+            function loadAvailableSlots(slots) {
+                // Display available slots dynamically
+                Object.keys(slots).forEach(period => {
+                    slots[period].forEach(slot => {
+                        const slotDiv = document.createElement('div');
+                        slotDiv.className = 'slot';
+                        slotDiv.textContent = slot;
+                        slotDiv.dataset.period = period;
+                        availableSlotsDiv.appendChild(slotDiv);
+    
+                        // Add event listener to enable the Submit button when a slot is clicked
+                        slotDiv.addEventListener('click', () => {
+                            // Highlight the selected slot (optional)
+                            document.querySelectorAll('.slot').forEach(slotElement => {
+                                slotElement.classList.remove('selected');
+                            });
+                            slotDiv.classList.add('selected');
+    
+                            // Enable the Submit button when a slot is selected
+                            submitSlotBtn.disabled = false;
+                            submitSlotBtn.classList.add('enabled'); // Add the 'enabled' class for styling
+                        });
+                    });
+                });
+            }
+    
+            submitSlotBtn.addEventListener('click', function () {
+                // Check if a slot is selected
+                const selectedSlot = document.querySelector('.slot.selected');
+                if (selectedSlot) {
+                    // Fetch the slot's time and period
+                    const selectedSlotTime = selectedSlot.textContent;
+                    const period = selectedSlot.dataset.period;
+    
+                    // Send doctorName and selected slot info as URL parameters
+                    const doctorName = selectedDoctorProfile.name; // Use the selected doctor's name from localStorage
+                    const selectedSlotInfo = `${selectedSlotTime} (${period})`;
+    
+                    // Redirect to the next page with doctorName and selectedSlotInfo as URL parameters
+                    window.location.href = `/index?doctorName=${encodeURIComponent(doctorName)}&slot=${encodeURIComponent(selectedSlotInfo)}`;
+                } else {
+                    // Notify the user to select a slot if not already selected
+                    alert('Please select a time slot before submitting.');
+                }
+            });
+    
+            // Function to generate the rating stars
+            function createRatingStars(rating) {
+                return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join(' ');
+            }
+        });
+    </script>
+    
+</body>
+
+</html>

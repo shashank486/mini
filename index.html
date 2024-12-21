@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Card Generator</title>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0093f5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button:hover {
+            background-color: #1f5a3c;
+        }
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e7f3fe;
+            border: 1px solid #b3d7ff;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            /* height: 100px; */
+        }
+
+        .card img {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            /* Adjust size as needed */
+            height: 50px;
+            /* Adjust size as needed */
+        }
+
+        .card h2,
+        .card p {
+            margin: 10px 0;
+        }
+
+
+        /* for QRcode  */
+        #imgBox {
+            height: 400px;
+            border-radius: 5px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s;
+        }
+
+        #imgBox img {
+            width: 100%;
+            padding: 10px;
+            /* display:flex;
+    bottom: -20px; */
+        }
+
+        #img.show-img {
+            max-height: 300px;
+            margin: 10px auto;
+            border: 1px solid #d1d1d1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>E-Pass</h1>
+        <br><br>
+        <form id="cardForm" method="post" action="/submit">
+            <label for="patientName">Patient Name:</label>
+            <input type="text" id="patientName" required name="patientName">
+            <br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" required name="age">
+            <br>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" required name="phone">
+            <br>
+            <label for="doctor">Doctor:</label>
+            <!-- <input type="text" id="doctor" class="docname" required name="doctor"> -->
+            <span id="doctor" class="docname"></span>
+            <input type="hidden" id="doctorHidden" name="doctor">
+
+            <br>
+            <!-- <label for="doctorPhone">Dr.Phone:</label>
+            <input type="tel" id="doctorPhone" required name="doctorPhone">
+            <br> -->
+            <button type="submit" id="submit">Generate Card</button>
+        </form>
+        <div id="card" class="card">
+
+        </div>
+        <button id="downloadBtn" style="display: none;">Download Card</button>
+    </div>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <!-- <script src="script.js"></script> -->
+    <!-- <script src="server.js"></script> -->
+
+
+    <script>
+
+
+
+
+
+
+
+
+
+        // Function to get query parameters by name
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        var doctorName = getQueryParam('doctorName');
+        console.log(doctorName);
+
+        // Find the element with the class 'docname' and set its text content
+        // var doctorNameElement = document.getElementsByClassName('docname')[0];
+
+        // if (doctorNameElement) {
+        //     doctorNameElement.textContent = `${doctorName}`;
+        // }
+
+        var elements = document.getElementsByClassName('docname');
+        for (let element of elements) {
+            element.textContent = `${doctorName}`;
+        }
+
+        const doctorElement = document.getElementById('doctor');
+        const hiddenDoctorInput = document.getElementById('doctorHidden');
+        doctorElement.textContent = doctorName;
+        hiddenDoctorInput.value = doctorName;
+
+
+
+
+        document.getElementById('cardForm').onsubmit = async function (event) {
+            event.preventDefault(); // Prevent default form submission  
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries()); // Convert FormData to object  
+
+            try {
+                const response = await fetch('http://localhost:5503/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                alert(result.message); // Alert success message  
+
+                // Optionally, handle additional UI logic here (e.g., hide form, show card, etc.)  
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to generate card.');
+            }
+        };
+
+
+
+
+
+
+
+        //modified code
+
+        // QR Code Generator Function
+        function QRgenerator(data) {
+            return `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(data)}&size=150x150`;
+        }
+
+        // Handle Form Submission
+        document.getElementById('cardForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const patientName = document.getElementById('patientName').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value;
+            // const doctor = document.getElementsByClassName('docname')[0]?.textContent || null;
+            // const doctorElement = document.getElementsByClassName('docname')[0]; // Get the first element with class 'docname'  
+            // const doctor = doctorElement ? doctorElement.textContent : null; // Assign its textContent or null if it doesn't exist
+           
+           
+
+            const qrData = `patientName: ${patientName}, age: ${age}, phone: ${phone}, doctor:${doctorName}`;
+
+            const card = document.getElementById('card');
+            card.innerHTML = `
+                <img id="logo" src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" alt="Company Logo">
+                <h2>${patientName}</h2>
+                <p>age: ${age}</p>
+                <p>phone: ${phone}</p>
+                <p>doctor: ${doctorName}</p>
+                
+                <div class="imgBox">
+                    <img src="${QRgenerator(qrData)}" id="qrImg" alt="QR Code">
+                </div>
+            `;
+
+            // const style = document.createElement('style');
+            // style.innerHTML = `
+            //     #logo {
+            //         border: 2px solid black;
+            //         border-radius: 38px;
+            //         width: 80px;
+            //         height: 80px;
+            //     }
+            //     .imgBox {
+            //         margin-top: 10px;
+            //     }
+            //     #qrImg {
+            //         border: 1px solid #ccc;
+            //         border-radius: 5px;
+            //         width: 130px;
+            //         height: 130px;
+            //     }
+            // `;
+            const style = document.createElement('style');
+            style.innerHTML = `
+            #logo
+            {
+                border:2px solid black;
+                border-radius: 38px;
+            }
+            .imgBox {
+                height:130px;
+                width:90%;
+                margin-top: 10px;
+                position: absolute;
+                bottom=-10px;/* Center align the QR code */
+            }
+            #qrImg {
+                border: 1px solid #ccc;
+                border-radius: 5px; 
+                position:absolute;
+                left:90px;
+            }
+            .imgBox img
+            {
+                width: auto;
+                height: 130px;
+            }
+
+                .card
+                {
+                    height:300px;
+                    width:300px;
+                }
+            `;
+            document.head.appendChild(style);
+
+            document.getElementById('downloadBtn').style.display = 'block';
+        });
+
+        // Handle Card Download
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set Canvas Dimensions
+            canvas.width = 400;
+            canvas.height = 500;
+
+            // Draw Background
+            ctx.fillStyle = '#e7f3fe';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add Logo
+            const logo = new Image();
+            logo.crossOrigin = "anonymous";
+            logo.src = "https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp";
+
+            logo.onload = function () {
+                ctx.drawImage(logo, 10, 10, 50, 50);
+
+                // Add Text
+                const patientName = document.getElementById('patientName').value;
+                const age = document.getElementById('age').value;
+                const phone = document.getElementById('phone').value;
+                // const doctor = document.getElementsByClassName('docname')[0]?.textContent || null;
+                // const doctorPhone = document.getElementById('doctorPhone').value;
+
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+
+                const textYStart = 100;
+                const textSpacing = 30;
+
+                ctx.fillText(`patientName: ${patientName}`, canvas.width / 2, textYStart);
+                ctx.font = '20px Arial';
+                ctx.fillText(`age: ${age}`, canvas.width / 2, textYStart + textSpacing);
+                ctx.fillText(`phone: ${phone}`, canvas.width / 2, textYStart + textSpacing * 2);
+                ctx.fillText(`doctor: ${doctorName}`, canvas.width / 2, textYStart + textSpacing * 3);
+                // ctx.fillText(`Doctor Phone: ${doctorPhone}`, canvas.width / 2, textYStart + textSpacing * 4);
+
+                // Add QR Code
+                const qrcode = new Image();
+                qrcode.crossOrigin = "anonymous";
+                const qrData = `patientName: ${patientName}, age: ${age}, phone: ${phone}, doctor:${doctorName}`;
+                qrcode.src = QRgenerator(qrData);
+
+                qrcode.onload = function () {
+                    ctx.drawImage(qrcode, canvas.width / 2 - 75, textYStart + textSpacing * 6, 150, 150);
+
+                    // Draw QR code
+                    // const qrCodeX = 150; // X position for QR code
+                    // const qrCodeY = 250; // Align QR code with the first line of text
+                    // ctx.drawImage(qrcode, qrCodeX, qrCodeY, 100, 100);
+                    // ctx.drawImage(qrcode, 250, 30, 100, 100);
+
+                    // Download the Canvas as an Image
+                    const link = document.createElement('a');
+                    link.download = 'patient_card.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                };
+            };
+        });
+
+
+    </script>
+    <!-- <script src="server.js"></script> -->
+    <script src="script.js"></script>
+</body>
+
+</html>

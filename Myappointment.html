@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointment</title>
+    
+    <style>
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 4px;
+            height: 35px;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .header nav a {
+            margin: 15px;
+            text-decoration: none;
+            color: #008cfe;
+            font-weight: 500;
+            /* font-family: cursive; */
+        }
+
+        .header nav a:hover {
+            color: #19bade;
+        }
+
+       
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img alt=" logo" height="30"
+                src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" width="60" />
+            <span style="color: #1978de; font-size: 24px; font-weight: 700; ">
+                <b>PMS</b>
+            </span>
+        </div>
+        
+    </header>
+
+
+    <div id="patientInfo"></div>
+    
+
+    <script>
+
+        // Retrieve doctorname from localStorage
+        const doctorname = localStorage.getItem('doctorname');
+
+async function fetchPatientInfo() {
+    const doctorName = doctorname; // Retrieve the doctor name from localStorage
+    try {
+        const response = await fetch(`http://localhost:5503/patient/${encodeURIComponent(doctorName)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to fetch patient data');
+        }
+
+        // Render the patient data in the div
+        const patientInfoDiv = document.getElementById('patientInfo');
+        if (data.length > 0) {
+            let content = `<h3>Patient Information for Dr. ${doctorName}</h3><ul>`;
+            data.forEach((patient) => {
+                content += `
+                    <li>
+                        <p><strong>Name:</strong> ${patient.patientName}</p>
+                        <p><strong>Age:</strong> ${patient.age}</p>
+                        <p><strong>Phone:</strong> ${patient.phone}</p>
+                        <p><strong>Doctor:</strong> ${patient.doctor}</p>
+                    </li>`;
+            });
+            content += '</ul>';
+            patientInfoDiv.innerHTML = content;
+        } else {
+            patientInfoDiv.innerHTML = '<p>No patients found for this doctor.</p>';
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        const patientInfoDiv = document.getElementById('patientInfo');
+        patientInfoDiv.innerHTML = `<p>Error fetching patient data: ${error.message}</p>`;
+    }
+}
+
+// Fetch and render the patient info when the page loads
+fetchPatientInfo();
+
+    </script>
+</body>
+</html>

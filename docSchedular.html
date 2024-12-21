@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Visit Scheduler</title>
+   <style>
+    /* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.01);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #444;
+}
+
+/* Form styles */
+form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="date"]:focus {
+    border-color: #007BFF;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Slot container styles */
+.section-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slot {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slot:hover {
+    background-color: #d4edda;
+    transform: translateY(-2px);
+}
+
+.slot:active {
+    transform: translateY(0);
+}
+
+/* Remove link styles */
+.slot-remove {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #ff6b6b;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.slot-remove:hover {
+    color: #e63946;
+}
+
+/* Save button styles */
+.primary-button {
+    display: block;
+    margin: 20px auto;
+    width: 50%;
+    text-align: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slot {
+    animation: fadeIn 0.4s ease;
+}
+
+.slot-remove {
+    animation: fadeIn 0.3s ease;
+}
+   </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clinic Visit Scheduler</h1>
+        <form id="schedulerForm">
+            <label for="visitDate">Select Date:</label>
+            <input type="date" id="visitDate" name="visit_date" required>
+            <button type="button" id="scheduleTimingsBtn">Show Available Slots</button>
+        </form>
+
+        <div class="section-container">
+            <h2>Available Slots</h2>
+            <div id="availableSlots">
+                <!-- Time slots dynamically populated -->
+            </div>
+        </div>
+
+        <div class="section-container">
+            <h2>Scheduled Slots</h2>
+            <div id="scheduledSlots">
+                <!-- Scheduled slots will be displayed here -->
+            </div>
+        </div>
+
+        <button id="saveScheduleBtn" class="primary-button">Save Schedule</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const visitDateInput = document.getElementById('visitDate');
+            const scheduleTimingsBtn = document.getElementById('scheduleTimingsBtn');
+            const availableSlotsDiv = document.getElementById('availableSlots');
+            const scheduledSlotsDiv = document.getElementById('scheduledSlots');
+            const saveScheduleBtn = document.getElementById('saveScheduleBtn');
+
+            let selectedDate = null;
+             function populateSlots() {
+                const today = new Date();
+                selectedDate = today.toISOString().split('T')[0];
+
+                availableSlotsDiv.innerHTML = '';
+                scheduledSlotsDiv.innerHTML = '';
+
+                const morningTimes = ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM'];
+                const afternoonTimes = ['12:00 PM', '12:30 PM', '01:00 PM', '01:30 PM', '02:00 PM', '02:30 PM', '03:00 PM'];
+                const eveningTimes = ['04:00 PM', '04:30 PM', '05:00 PM', '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM', '08:00 PM', '08:30 PM', '09:00 PM', '09:30 PM'];
+
+                morningTimes.forEach(time => addSlot(availableSlotsDiv, time, 'morning'));
+                afternoonTimes.forEach(time => addSlot(availableSlotsDiv, time, 'afternoon'));
+                eveningTimes.forEach(time => addSlot(availableSlotsDiv, time, 'evening'));
+
+                loadScheduledSlots();
+            }
+
+            function addSlot(container, time, period) {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slot.textContent = time;
+                slot.dataset.period = period;
+                slot.onclick = () => scheduleSlot(time, period);
+                container.appendChild(slot);
+            }
+
+            function scheduleSlot(time, period) {
+                const existingSlot = [...scheduledSlotsDiv.children].find(slot => slot.textContent.includes(time));
+                if (existingSlot) {
+                    alert('This slot is already scheduled.');
+                    return;
+                }
+
+                const scheduledSlot = document.createElement('div');
+                scheduledSlot.className = 'slot';
+                scheduledSlot.textContent = time;
+                scheduledSlot.dataset.period = period;
+
+                const removeLink = document.createElement('span');
+                removeLink.textContent = 'Remove';
+                removeLink.className = 'slot-remove';
+                removeLink.onclick = (e) => {
+                    e.stopPropagation();
+                    if (confirm('Are you sure you want to remove this slot?')) {
+                        removeScheduledSlot(time, period, scheduledSlot);
+                    }
+                };
+
+                scheduledSlot.appendChild(removeLink);
+                scheduledSlotsDiv.appendChild(scheduledSlot);
+
+                if (!localStorage.getItem(selectedDate)) {
+                    localStorage.setItem(selectedDate, JSON.stringify({ morning: [], afternoon: [], evening: [] }));
+                }
+                const storedSlots = JSON.parse(localStorage.getItem(selectedDate));
+                storedSlots[period].push(time);
+                localStorage.setItem(selectedDate, JSON.stringify(storedSlots));
+            }
+
+            function removeScheduledSlot(time, period, slotElement) {
+                const storedSlots = JSON.parse(localStorage.getItem(selectedDate));
+
+                if (storedSlots && storedSlots[period]) {
+                    storedSlots[period] = storedSlots[period].filter(slot => slot !== time);
+                    localStorage.setItem(selectedDate, JSON.stringify(storedSlots));
+
+                    slotElement.remove();
+                }
+            }
+
+            function loadScheduledSlots() {
+                const savedSlots = JSON.parse(localStorage.getItem(selectedDate));
+                if (savedSlots) {
+                    Object.keys(savedSlots).forEach(period => {
+                        savedSlots[period].forEach(slot => {
+                            const scheduledSlot = document.createElement('div');
+                            scheduledSlot.className = 'slot';
+                            scheduledSlot.textContent = slot;
+                            scheduledSlot.dataset.period = period;
+
+                            const removeLink = document.createElement('span');
+                            removeLink.textContent = 'Remove';
+                            removeLink.className = 'slot-remove';
+                            removeLink.onclick = (e) => {
+                                e.stopPropagation();
+                                if (confirm('Are you sure you want to remove this slot?')) {
+                                    removeScheduledSlot(slot, period, scheduledSlot);
+                                }
+                            };
+
+                            scheduledSlot.appendChild(removeLink);
+                            scheduledSlotsDiv.appendChild(scheduledSlot);
+                        });
+                    });
+                }
+            }
+
+            scheduleTimingsBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                const selectedDateValue = visitDateInput.value;
+
+                if (!selectedDateValue) {
+                    alert('Please select a date.');
+                    return;
+                }
+
+                selectedDate = new Date(selectedDateValue).toISOString().split('T')[0];
+                loadScheduledSlots();
+            });
+
+            saveScheduleBtn.addEventListener('click', async () => {
+                const savedSchedule = JSON.parse(localStorage.getItem(selectedDate));
+
+                if (savedSchedule) {
+                    const scheduleData = {
+                        date: selectedDate,
+                        slots: savedSchedule
+                    };
+
+                    try {
+                        const response = await fetch('http://localhost:5503/api/schedule', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(scheduleData)
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert(`Schedule saved successfully for ${selectedDate}`);
+                        } else {
+                            alert(`Failed to save schedule: ${result.error}`);
+                        }
+                    } catch (err) {
+                        alert('Error saving schedule. Please try again.');
+                    }
+                } else {
+                    alert('No schedule saved.');
+                }
+            });
+
+            populateSlots();
+        });
+
+    </script>
+</body>
+</html>

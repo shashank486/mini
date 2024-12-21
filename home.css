@@ -1,0 +1,392 @@
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: normal;
+}
+
+.phone {
+    width: 300px;
+    height: 600px;
+    background-color: white;
+    border: 10px solid black;
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-right: 50px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+}
+
+/* .cambox
+{
+    background-color: black;
+} */
+.notch {
+    background-color: black;
+    width: 100px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    left: 100px;
+}
+
+.section img {
+    /* padding: 25px; */
+    width: 250px;
+    height: 64%;
+    align-content: center;
+
+}
+
+.phone .header {
+    background-color: white;
+
+    color: #2196f5;
+    padding: 10px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.phone .header img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.phone .header .name {
+    flex-grow: 1;
+}
+
+.phone .header .icons {
+    display: flex;
+    align-items: center;
+}
+
+.phone .header .icons i {
+    margin-left: 10px;
+}
+
+.phone .content {
+    padding: 20px;
+    height: calc(100% - 100px);
+}
+
+.phone .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: #f5f7fa;
+}
+
+.phone .footer input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.phone .footer button {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+/* .phone-section .intro-video {
+    width: 250px; 
+    height: 140px; 
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+} */
+
+.intro-video {
+    width: 100%;
+    height: 192px;
+    position: relative;
+    bottom: -130px;
+    object-fit: cover;
+
+    transform: scale(0.9);
+    /* Adjust the scale value as needed */
+    transform-origin: center;
+    /* Ensures the zoom is centered */
+}
+
+.info {
+    max-width: 400px;
+}
+
+.info h1 {
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+}
+
+.info h1 span {
+    font-weight: normal;
+}
+
+.info ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.info ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.info ul li i {
+    color: #3b5998;
+    margin-right: 10px;
+}
+
+.info .button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info .button button {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.info .button span {
+    color: #666;
+}
+
+.info .review {
+    display: flex;
+    align-items: center;
+}
+
+.info .review i {
+    color: #3b5998;
+    margin-right: 5px;
+}
+
+.info .review p {
+    margin: 0;
+    color: #666;
+}
+
+.info .review .name {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.info .review .name img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+
+
+
+/* -------------------------------------------- */
+/* .footer_container{
+    display: flex;
+} */
+.Fcontainer_column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    display: flex;
+    padding: 30px;
+    justify-content: space-around;
+    padding: 40px 0;
+    text-align: left;
+    background-color: #2196f5;
+    border-bottom: none;
+}
+
+.footer-column {
+    width: 15%;
+}
+
+.footer-column h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.footer-column a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    background-color: #2196f5;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #3A4BA3;
+    border-radius: 5px;
+}
+
+.footer-bottom img {
+    width: 100px;
+    margin-bottom: 10px;
+    border-radius: 100px;
+}
+
+.footer-bottom p {
+    font-size: 12px;
+    margin: 0;
+}
+
+
+/* Navigation */
+
+
+.navigation-bar {
+    background-color: #2c3e8e;
+    padding: 20px 0;
+    width: 100%;
+    border-radius: 12px;
+    border-bottom: 5px solid #2196f5;
+}
+
+.navigation-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-bar ul li {
+    margin: 0 20px;
+    text-align: center;
+    color: white;
+    transition: color 0.3s, background-color 0.3s, font-size 0.3s;
+}
+
+.navigation-bar ul li i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px;
+    transition: font-size 0.3s;
+}
+
+.navigation-bar ul li .new {
+    background-color: #4caf50;
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.navigation-bar ul li:not(:last-child) {
+    border-right: 1px solid #3b4a9b;
+    padding-right: 20px;
+}
+
+.navigation-bar ul li:not(:first-child) {
+    padding-left: 20px;
+}
+
+.navigation-bar ul li:hover {
+    /* color: #4caf50; */
+    background-color: #3b4a9b;
+    cursor: pointer;
+}
+
+.navigation-bar ul li:hover i {
+    font-size: 28px;
+}
+
+
+
+/* 
+//about section */
+
+.about-section {
+    width: 1400px;
+    background-color: #f9f9f9;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content h2 {
+    font-size: 28px;
+    color: #3b5998;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .about-content h2 {
+        font-size: 24px;
+    }
+
+    .about-content p {
+        font-size: 14px;
+    }
+    
+}
+
+
+/* Scanner Icon Styles */
+.scanner {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.scanner img {
+    position: relative;
+    left: 110px;
+    width: 40px;
+    height: 40px;
+}
+

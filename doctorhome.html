@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoctorHomePage</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            /* background-color: #f8f9fa; */
+            font-family: 'Roboto', sans-serif;
+            /* background-color: #2C3E9F; */
+            background-color: white;
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 4px;
+            height: 35px;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .header nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #008cfe;
+            font-weight: 500;
+            /* font-family: cursive; */
+        }
+
+        .header nav a:hover {
+            color: #19bade;
+        }
+
+        /* .header .login-signup {
+            border: 1px solid #e0e0e0;
+            padding: 5px 15px;
+            border-radius: 5px;
+            color: #333;
+            text-decoration: none;
+        } */
+
+        /* Scanner Icon Styles */
+        .scanner {
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .scanner img {
+            position: relative;
+            bottom: -50px;
+            left: 190px;
+            width: 40px;
+            height: 40px;
+        }
+
+
+
+        /* Footer */
+        .Fcontainer_column {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .footer {
+            display: flex;
+            padding: 30px;
+            justify-content: space-around;
+            padding: 40px 0;
+            text-align: left;
+            background-color: #2196f5;
+            border-bottom: none;
+        }
+
+        .footer-column {
+            width: 15%;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            background-color: #2196f5;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #3A4BA3;
+            border-radius: 5px;
+        }
+
+        .footer-bottom img {
+            width: 100px;
+            margin-bottom: 10px;
+            border-radius: 100px;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        /* 
+//about section */
+
+        .about-section {
+            width: 1400px;
+            background-color: #f9f9f9;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 28px;
+            color: #3b5998;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+            .about-content h2 {
+                font-size: 24px;
+            }
+
+            .about-content p {
+                font-size: 14px;
+            }
+
+        }
+
+
+        .header_srh {
+            background-image: url('https://res.cloudinary.com/dviuu2srn/image/upload/v1732611224/imgg_mjne74.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 1500px 600px;
+            display: flex;
+            width: 100%;
+            height: 500px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            justify-items: normal;
+        }
+
+        .phone {
+            width: 300px;
+            height: 600px;
+            background-color: white;
+            border: 10px solid black;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-right: 50px;
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+        }
+
+        /* .cambox
+{
+    background-color: black;
+} */
+        .notch {
+            background-color: black;
+            width: 100px;
+            height: 20px;
+            border: 2px solid black;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            left: 100px;
+        }
+
+        .section img {
+            /* padding: 25px; */
+            width: 250px;
+            height: 64%;
+            align-content: center;
+
+        }
+
+        .phone .header {
+            background-color: white;
+
+            color: #2196f5;
+            padding: 10px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .phone .header img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .phone .header .name {
+            flex-grow: 1;
+        }
+
+        .phone .header .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .phone .header .icons i {
+            margin-left: 10px;
+        }
+
+        .phone .content {
+            padding: 20px;
+            height: calc(100% - 100px);
+        }
+
+        .phone .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            background-color: #f5f7fa;
+        }
+
+        .phone .footer input {
+            flex-grow: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .phone .footer button {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+        /* .phone-section .intro-video {
+    width: 250px; 
+    height: 140px; 
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+} */
+
+        .intro-video {
+            width: 100%;
+            height: 192px;
+            position: relative;
+            bottom: -130px;
+            object-fit: cover;
+
+            transform: scale(0.9);
+            /* Adjust the scale value as needed */
+            transform-origin: center;
+            /* Ensures the zoom is centered */
+        }
+
+        .info {
+            max-width: 400px;
+        }
+
+        .info h1 {
+            font-size: 36px;
+            color: #333;
+            margin: 0;
+        }
+
+        .info h1 span {
+            font-weight: normal;
+        }
+
+        .info ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .info ul li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .info ul li i {
+            color: #3b5998;
+            margin-right: 10px;
+        }
+
+        .info .button {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info .button button {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .info .button span {
+            color: #666;
+        }
+
+        .info .review {
+            display: flex;
+            align-items: center;
+        }
+
+        .info .review i {
+            color: #3b5998;
+            margin-right: 5px;
+        }
+
+        .info .review p {
+            margin: 0;
+            color: #666;
+        }
+
+        .info .review .name {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .info .review .name img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        /* Dropdown menu for profile */
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-button {
+            background-color: #f1f1f1;
+            border: none;
+            color: black;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            left: -50px;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            /* Start invisible */
+            transform: translateY(-10px);
+            /* Slide effect */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            /* Smooth animation */
+
+        }
+
+        .user-dropdown:hover .menu-content {
+            display: block;
+            opacity: 1;
+            /* Fade-in effect */
+            transform: translateY(0);
+            /* Slide-down effect */
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .avatar-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-details {
+            margin-left: 10px;
+        }
+
+        .user-details p {
+            color: #008cfe;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .user-phone {
+            color: grey;
+        }
+
+        .menu-content .menu-item {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-content .menu-item:hover {
+            background-color: #ddd;
+        }
+
+        .profile-link {
+            color: blue;
+        }
+
+        .product-switch {
+            padding: 12px 16px;
+            border-top: 1px solid #ccc;
+        }
+
+        .product-switch p {
+            margin: 0;
+            color: grey;
+        }
+
+
+        /* body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        } */
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .dropdown img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            min-width: 300px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .dropdown-content h2 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .dropdown-content p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .show {
+            display: block;
+        }
+
+        #qr-result {
+            background-color: rgb(90, 180, 244);
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: fit-content;
+            word-wrap: break-word;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            white-space: pre-line;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img alt="Practo logo" height="30"
+                src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp" width="60" />
+            <span style="color: #1978de; font-size: 24px; font-weight: 700; ">
+                <b>PMS</b>
+            </span>
+        </div>
+        <nav>
+            <a href="/">
+
+            </a>
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#work">
+                How it Works?
+            </a>
+
+            <!-- <a href="#">
+                Security &amp; help
+            </a> -->
+
+            <!-- SCANNER -->
+
+        </nav>
+
+        <div class="dropdown">
+            <img src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732611219/qr-code_qld3wq.png" alt="Scanner"
+                onclick="toggleScanner()" />
+            <div class="dropdown-content" id="dropdown-content">
+                <!-- Container for the QR scanner -->
+                <div id="qr-reader" style="width: 100%;"></div>
+
+                <!-- Display the scanned result -->
+                <div id="qr-result">
+                    <h2>Scanned QR Code Data:</h2>
+                    <p id="result">Waiting for QR code...</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="user-dropdown" id="userMenu">
+            <button class="menu-button" id="name">...</button>
+            <div class="menu-content" id="menuItems">
+                <div class="user-profile" id="profileSection">
+                    <img src="profile-image-url.jpg" alt="Profile Image" class="avatar-image">
+                    <div class="user-details">
+                        <p class="user-name" id="name" color="black"></p>
+                        <p class="user-phone"></p>
+                    </div>
+                </div>
+                <a href="/docSchedular" class="menu-item">Create Slot</a>
+                <a href="/Myappointment" class="menu-item">My Appointments</a>
+                <!-- <a href="/doctor-detail" class="menu-item">Doctor</a>     -->
+                <!-- <a href="#" class="profile-link">View / Update Profile</a>   -->
+                <a href="/Docprofile" class="menu-item">Profile</a>
+                <a href="#" class="menu-item">Logout</a>
+
+            </div>
+        </div>
+
+
+    </header>
+
+    <br>
+    <div class="header_srh">
+
+    </div>
+    <div id="verification-status"></div>
+
+    <!-- assure -->
+    <div class="container" id="work">
+        <div class="phone section">
+            <div class="cambox">
+                <div class="notch"></div>
+            </div>
+            <div class="header">
+                <img alt="Doctor's profile picture" height="30"
+                    src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp"
+                    width="30" />
+                <div class="name">
+                    PMS
+                    </strong>
+
+                </div>
+
+                <i class="fas fa-ellipsis-v">
+                </i>
+            </div>
+            <div class="videoBox">
+                <video class="intro-video" autoplay muted loop>
+                    <source src="slide.mp4" type="video/mp4">
+                    <!-- Your browser does not support the video tag. -->
+                </video>
+            </div>
+        </div>
+        <div class="content">
+            <!-- Chat content goes here -->
+        </div>
+        <!-- <div class="footer">
+            <i class="fas fa-paperclip">
+            </i>
+            <input placeholder="Write Message" type="text" />
+            <button>
+                SEND
+            </button>
+        </div> -->
+        <div class="info">
+            <h1>
+                Skip the Queue.
+                <br />
+                <span>
+                    Pre-Book the <b color="blue">slot</b>
+                </span>
+            </h1>
+            <br><br>
+            <!-- <div class="button">
+                <button>
+                    <a href="doctors.html"><strong>Book now</strong></a>
+                </button>
+
+            </div> -->
+
+        </div>
+    </div>
+    <br>
+    <!-- About -->
+    <div class="about-section" id="about">
+        <div class="about-content">
+            <h2>PMS - Patient Management System</h2>
+            <p>
+                The Patient Management System (PMS) is designed to minimize waiting times in hospital queues. Using our
+                mobile app, patients can register quickly, choose doctors, and receive an Emergency Pass (EP) with a QR
+                code for priority booking. The QR code allows for easy check-ins, and payments can be made online or at
+                the hospital. This system ensures a streamlined and efficient healthcare experience for both patients
+                and doctors.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- footer -->
+    <div class="footer_container">
+        <div class="Fcontainer_column">
+
+
+            <div class="footer-bottom inner-div">
+                <img alt="Practo logo" height="100"
+                    src="https://res.cloudinary.com/dviuu2srn/image/upload/v1732110862/logo_PMS_iwjig9.webp"
+                    width="100" />
+                <p>
+                    Copyright © 2025, PMS. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // // Retrieve the doctor's name from the URL
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const doctorName = urlParams.get('doctorName');
+       
+        // // Display the success message
+        // if (doctorName) {
+        //     document.getElementById('name').textContent = doctorName;
+        // }
+        
+        const doctorName = localStorage.getItem('doctorName');
+        // Display the success message
+        if (doctorName) {
+            document.getElementById('name').textContent = doctorName;
+        }
+        
+
+
+
+
+        // Retrieve doctorname from localStorage
+        const doctorname = localStorage.getItem('doctorname');
+        if (doctorname) {
+            document.getElementById('name').textContent = doctorname; // Display the name
+        } else {
+            console.error('Doctor name is missing.');
+        }
+        // sending the doctorname
+        
+
+
+        // Check user authentication status on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const isAuthenticated = sessionStorage.getItem("authenticated");
+
+            if (!isAuthenticated) {
+                alert("Please login to access this page.");
+                window.location.href = "/login"; // Redirect to login page
+            }
+        });
+
+
+       
+
+
+
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     // Simulated user data. Replace this with a proper backend/user session check.
+        //     const userLoggedIn = true; // Set to true if the user is logged in
+        //     // const userName = "Shashank B"; // Replace with the logged-in user's name
+
+        //     const loginSignupLink = document.querySelector(".login-signup");
+
+        //     if (userLoggedIn) {
+        //         // Replace the login/signup link with the profile dropdown
+        //         loginSignupLink.outerHTML = `
+        //     <div class="user-dropdown" id="userMenu">  
+        //         <button class="menu-button">${doctorName} ▼</button>  
+        //         <div class="menu-content" id="menuItems">  
+        //             <div class="user-profile" id="profileSection">  
+        //                 <img src="profile-image-url.jpg" alt="Profile Image" class="avatar-image">  
+        //                 <div class="user-details">  
+        //                     <p class="user-name">${doctorName}</p>  
+        //                     <p class="user-phone">+918431841740</p>  
+        //                 </div>  
+        //             </div>  
+        //              <a href="/docSchedular" class="menu-item">Create Slot</a>
+        //             <a href="/Myappointment" class="menu-item">My Appointments</a>  
+                     
+        //             <a href="#" class="menu-item">Settings</a>  
+        //             <a href="#" class="menu-item">Logout</a>  
+                    
+        //         </div>  
+        //     </div>`;
+        //     }
+        // });
+
+
+        // if (userId) {
+        //     fetch(`http://localhost:5503/api/userdata?userId=${userId}`)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log(data);  // Log the data to verify it's correct
+        //             // Use the user data to display personalized content
+        //             document.getElementById('userName').textContent = data.fullname;
+        //             document.getElementById('userEmail').textContent = data.email;
+        //             // More actions like updating UI with the user data
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching user data:', error);
+        //         });
+        // } else {
+        //     console.error('User ID is missing');
+        // }
+
+
+        function toggleScanner() {
+            const dropdownContent = document.getElementById('dropdown-content');
+            dropdownContent.classList.toggle('show');
+
+            if (dropdownContent.classList.contains('show')) {
+                const qrReader = new Html5Qrcode("qr-reader");
+                qrReader.start({ facingMode: "environment" }, {}, function onScanSuccess(decodedText) {
+                    document.getElementById('result').innerText = decodedText;
+                });
+            }
+        }
+
+
+
+
+        let qrReader;
+        let isScanned = false;
+
+        function toggleScanner() {
+
+            if (isScanned) return;
+
+            const dropdownContent = document.getElementById('dropdown-content');
+            dropdownContent.classList.toggle('show');
+
+            if (dropdownContent.classList.contains('show')) {
+                if (!qrReader) {
+                    qrReader = new Html5Qrcode("qr-reader");
+                }
+
+                qrReader.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: { width: 250, height: 250 } },
+                    function onScanSuccess(decodedText) {
+                        // Display scanned data
+                        // document.getElementById('result').innerText = decodedText;
+
+                        // Split the string into key-value pairs
+                        const data = {};
+                        decodedText.split(', ').forEach(pair => {
+                            const [key, value] = pair.split(':').map(str => str.trim());
+                            data[key] = value;
+                        });
+
+                        // Display parsed data
+                        document.getElementById('result').innerHTML = `
+                        <strong>patientName:</strong> ${data.patientName}<br/>
+                        <strong>age:</strong> ${data.age}<br/>
+                        <strong>phone:</strong> ${data.phone}<br/>
+                        <strong>doctor:</strong> ${data.doctor}
+                        `;
+
+
+                        // Send data to the backend for verification
+                        fetch('http://localhost:5503/verify', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                phone: data.phone,
+                                doctor: data.doctor
+                            }),
+                        })
+                            .then(async (response) => {
+                                const verificationStatus = document.getElementById('verification-status');
+                                if (!response.ok) {
+                                    const errorText = await response.text(); // Capture HTML error message
+                                    throw new Error(`Server Error: ${errorText}`);
+                                }
+                                return response.json();
+                            })
+                            .then((result) => {
+                                if (result.verified) {
+                                    // alert('Verification successful!');
+                                    // Delay for 3 seconds before navigating to the new page
+                                    setTimeout(() => {
+                                        window.location.href = "/verifiedPage"; // Replace with the desired URL
+
+                                        // After 5 seconds on the new page, return to the original page
+                                        setTimeout(() => {
+                                            window.location.href = "/doctorhome"; // Replace with the original page URL
+                                        }, 2000); // Delay for 5 seconds
+                                    }, 1000); // Delay for 3 seconds before navigation
+
+                                } else {
+                                    // alert('Verification failed: Data not found.');
+
+                                    // After 5 seconds on the new page, return to the original page
+                                    setTimeout(() => {
+                                        window.location.href = "/404"; // Replace with the original page URL
+                                    }, 2000); // Delay for 5 seconds
+
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('Error verifying data:', error.message);
+                                alert(`Verification failed: ${error.message}`);
+                            });
+
+
+                        // Mark as scanned and stop scanner
+                        isScanned = true;
+                        qrReader.stop().then(() => {
+                            qrReader.clear();
+                        });
+                    },
+                    function onScanFailure(error) {
+                        console.warn(`QR Code scanning failed: ${error}`);
+                    }
+                );
+            } else {
+                if (qrReader) {
+                    qrReader.stop().then(() => {
+                        qrReader.clear();
+                    });
+                }
+            }
+        }
+
+
+
+        // Initialize the QR code scanner
+        const qrCodeScanner = new Html5Qrcode("qr-reader");
+
+        // Start the QR code scanning process
+        qrCodeScanner.start(
+            { facingMode: "environment" }, // Use rear camera
+            {
+                fps: 10, // Frames per second for the video feed
+                qrbox: 250, // Size of the scanning area
+            },
+            onScanSuccess,
+            onScanError
+        ).catch(err => {
+            console.error("Error initializing scanner: ", err);
+        });
+
+
+
+    </script>
+</body>
+
+</html>
